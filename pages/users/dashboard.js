@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import UserButton from "@/components/user/Button";
 import SearchBar from "@/components/user/SearchBar";
 import DeleteModal from "@/components/user/DeleteModal";
+import CreateModal from "@/components/user/CreateModal";
+import UpdateModal from "@/components/user/UpdateModal";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +16,8 @@ import { IconContext } from "react-icons";
 export default function dashboard({ users }) {
   const [filteredUser, setFilteredUser] = useState();
   const [delState, setDelState] = useState(false);
+  const [createState, setCreateState] = useState(false);
+  const [updateState, setUpdateState] = useState(false);
   const [choosedID, setChoosedID] = useState();
   const triggerToast = (text) => {
     toast(text);
@@ -21,6 +25,14 @@ export default function dashboard({ users }) {
   const triggerDelete = (id) => {
     chooseID(id);
     setDelState(!delState);
+  };
+  const triggerUpdate = (id) => {
+    chooseID(id);
+    setUpdateState(!updateState);
+  };
+  const triggerCreate = () => {
+    console.log(createState);
+    setCreateState(!createState);
   };
   const chooseID = (id) => {
     if (id !== null) {
@@ -33,6 +45,7 @@ export default function dashboard({ users }) {
   return (
     <div className="">
       <ToastContainer />
+      <UserButton href="/" content="Show Landing Page" />
       {delState && (
         <DeleteModal
           triggerDelete={triggerDelete}
@@ -40,9 +53,27 @@ export default function dashboard({ users }) {
           choosedID={choosedID}
         />
       )}
-      <div className="bg-gradient-to-b from-blue-900 to-green-800 min-h-screen pt-12 md:pt-24  pb-20 md:pb-12 md:px-8">
-        <UserButton href="/" content="Show Landing Page" />
-        <SearchBar data={users} setFilteredData={setFilteredUser} />
+
+      {updateState && (
+        <UpdateModal
+          triggerUpdate={triggerUpdate}
+          triggerToast={triggerToast}
+          choosedID={choosedID}
+        ></UpdateModal>
+      )}
+
+      {createState && (
+        <CreateModal
+          triggerCreate={triggerCreate}
+          triggerToast={triggerToast}
+        />
+      )}
+      <div className="bg-gradient-to-b from-blue-900 to-green-800 min-h-screen pt-12 md:pt-24  pb-20 md:pb-12 px-[3%]">
+        <SearchBar
+          data={users}
+          setFilteredData={setFilteredUser}
+          triggerCreate={triggerCreate}
+        />
         <div className="bg-white rounded-lg md:rounded-xl overflow-hidden">
           <table className="w-full table-auto">
             <thead>
@@ -77,7 +108,10 @@ export default function dashboard({ users }) {
                       <IconContext.Provider
                         value={{ color: "green", size: "20px" }}
                       >
-                        <div className="cursor-pointer w-fit">
+                        <div
+                          className="cursor-pointer w-fit"
+                          onClick={() => triggerUpdate(l.id)}
+                        >
                           <AiFillEdit />
                         </div>
                       </IconContext.Provider>
@@ -105,7 +139,7 @@ export default function dashboard({ users }) {
   );
 }
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps = async () => {
   const users = await fetch(`https://gorest.co.in/public/v2/users`).then(
     (res) => res.json()
   );
