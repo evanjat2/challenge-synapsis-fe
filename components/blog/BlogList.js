@@ -10,7 +10,7 @@ export default function BlogList({
     setContent(post);
   };
   return (
-    <div className="">
+    <div className="bg-white p-2 rounded-lg">
       <div className="text-xl h-8 text-ellipsis truncate ...">{post.title}</div>
       <div className="whitespace-normal h-12 overflow-hidden">{post.body}</div>
       <p>{post.id}</p>

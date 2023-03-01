@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 
 import BlogList from "@/components/blog/BlogList";
-import Sidebar from "@/components/user/Sidebar";
+import Sidebar from "@/components/user/SearchBar";
 import BlogModal from "@/components/blog/BlogModal";
-
+import UserButton from "@/components/user/Button";
 
 export default function Home({ posts, comments }) {
   const [modalState, setModal] = useState(false);
@@ -13,6 +13,9 @@ export default function Home({ posts, comments }) {
   useEffect(() => {
     setComment(comments.filter((list) => list.post_id == content?.id));
   }, [content]);
+  useEffect(() => {
+    console.log(posts);
+  }, []);
   return (
     <>
       <Head>
@@ -21,10 +24,10 @@ export default function Home({ posts, comments }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex">
-        <div className="h-screen w-[80%]">
+      <div className="h-full bg-gradient-to-b from-blue-900 to-green-800">
+        <div className="w-full">
           {posts.map((list) => (
-            <div className="pt-4 px-[5%] " key={list.id}>
+            <div className="pt-4 px-[5%] py-4" key={list.id}>
               <BlogList
                 post={list}
                 setState={setModal}
@@ -34,13 +37,11 @@ export default function Home({ posts, comments }) {
             </div>
           ))}
         </div>
-        <div className="fixed top-[20%] right-[0] w-[20%]">
-          <Sidebar />
-        </div>
+        <UserButton href="/users/dashboard" content="Show User" />
         <div
           className={
-            "fixed inset-[0] " +
-            (modalState == true ? " " : " pointer-events-none")
+            "fixed inset-[0] duration-400 origin-center transition-all " +
+            (modalState == true ? " h-full" : " pointer-events-none h-0")
           }
         >
           <BlogModal
