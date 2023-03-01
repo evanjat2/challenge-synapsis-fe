@@ -1,12 +1,18 @@
+import { useState, useEffect } from "react";
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import Link from "next/link";
+
 import BlogList from "@/components/blog/BlogList";
+import SearchUser from "@/components/user/SearchUser";
+import BlogModal from "@/components/blog/BlogModal";
 
-const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({ posts }) {
+export default function Home({ posts, comments }) {
+  const [modalState, setModal] = useState(false);
+  const [content, setContent] = useState();
+  const [comment, setComment] = useState(comments);
+  useEffect(() => {
+    setComment(comments.filter((list) => list.post_id == content?.id));
+  }, [content]);
   return (
     <>
       <Head>
@@ -19,11 +25,31 @@ export default function Home({ posts }) {
         <div className="h-screen w-[80%]">
           {posts.map((list) => (
             <div className="pt-4 px-[10%] " key={list.id}>
-              <BlogList post={list} />
+              <BlogList
+                post={list}
+                setState={setModal}
+                setContent={setContent}
+                setComment={setComment}
+              />
             </div>
           ))}
         </div>
-        <div></div>
+        <div className="fixed top-[20%] right-[0] w-[20%]">
+          <SearchUser />
+        </div>
+        <div
+          className={
+            "fixed inset-[0] " +
+            (modalState == true ? " " : " pointer-events-none")
+          }
+        >
+          <BlogModal
+            state={modalState}
+            setState={setModal}
+            content={content}
+            comment={comment}
+          />
+        </div>
       </div>
     </>
   );
@@ -32,14 +58,17 @@ export default function Home({ posts }) {
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const res = await fetch("https://gorest.co.in/public/v2/posts");
-  const posts = await res.json();
+  const resPosts = await fetch("https://gorest.co.in/public/v2/posts");
+  const posts = await resPosts.json();
 
+  const resComments = await fetch("https://gorest.co.in/public/v2/comments");
+  const comments = await resComments.json();
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
   return {
     props: {
       posts,
+      comments,
     },
   };
 }

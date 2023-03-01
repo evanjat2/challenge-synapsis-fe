@@ -1,16 +1,22 @@
 import Link from "next/link";
 import { useState } from "react";
-export default function BlogList({ post }) {
-  const [modalState, setModal] = useState(false);
+export default function BlogList({
+  post,
+  setState,
+  setContent,
+}) {
   const triggerModal = () => {
-    setModal(!modalState);
-    console.log(modalState);
+    setState(true);
+    setContent(post);
   };
   return (
     <div className="">
       <div className="text-xl h-8 text-ellipsis truncate ...">{post.title}</div>
       <div className="whitespace-normal h-12 overflow-hidden">{post.body}</div>
-      <p className="text-red-400 cursor-pointer" onClick={()=> triggerModal()}>Read more...</p>
+      <p>{post.id}</p>
+      <p className="text-red-400 cursor-pointer" onClick={() => triggerModal()}>
+        Read more...
+      </p>
     </div>
   );
 }
