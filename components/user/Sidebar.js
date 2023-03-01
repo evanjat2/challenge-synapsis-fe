@@ -23,52 +23,6 @@ export default function Sidebar() {
       });
   };
 
-  const searchUse = async (event) => {
-    event.preventDefault();
-    const responseUser = await fetch(`https://gorest.co.in/public/v2/users/`, {
-      method: "GET",
-    });
-    const dataUsers = await responseUser.json();
-
-    const searchUser = event.target.user.value.toLowerCase();
-    const dataUser = document.getElementById("dataUser");
-
-    if (searchUser.length == 0) {
-      return ReactDOM.render(
-        dataUsers.map((user) => (
-          <div key={user.id}>
-            <h2>
-              <Link href={`./users/${user.id}`}>{user.name}</Link>
-            </h2>
-          </div>
-        )),
-        dataUser
-      );
-    } else {
-      const dataUsersFilter = [];
-
-      dataUsers.map((user) => {
-        user["name"].toLowerCase().includes(searchUser)
-          ? dataUsersFilter.push(user)
-          : "";
-      });
-
-      if (dataUsersFilter.length > 0) {
-        return ReactDOM.render(
-          dataUsersFilter.map((user) => (
-            <div key={user.id}>
-              <h2>
-                <Link href={`./users/${user.id}`}>{user.name}</Link>
-              </h2>
-            </div>
-          )),
-          dataUser
-        );
-      } else {
-        return ReactDOM.render(<h2>No User Data</h2>, dataUser);
-      }
-    }
-  };
   return (
     <div className="absolute">
       <div className="grid w-full overflow-hidden pr-8">
@@ -87,19 +41,19 @@ export default function Sidebar() {
           </button>
         </form>
 
-        <Link href={"/user/create"}>
+        <Link href={"/users/create"}>
           <div className="w-full text-center cursor-pointer bg-blue-400 hover:bg-blue-300 rounded-md mt-2">
             or Create User
           </div>
         </Link>
 
-        <div className="h-40 overflow-y-auto bg-yellow-100 rounded-md mt-4 p-2">
+        <div className="max-h-40 overflow-y-auto bg-yellow-100 rounded-md mt-4 p-2">
           {filterData?.map((list) => (
             <div
               key={list.id}
               className="pt-2 hover:text-blue-500 cursor-pointer"
             >
-              {list.name}
+              <Link href={`/users/${list.id}`}>{list.name}</Link>
             </div>
           ))}
         </div>
