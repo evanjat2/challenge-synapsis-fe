@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 
 import BlogList from "@/components/blog/BlogList";
-import SearchUser from "@/components/user/SearchUser";
+import Sidebar from "@/components/user/Sidebar";
 import BlogModal from "@/components/blog/BlogModal";
 
 
@@ -24,7 +24,7 @@ export default function Home({ posts, comments }) {
       <div className="flex">
         <div className="h-screen w-[80%]">
           {posts.map((list) => (
-            <div className="pt-4 px-[10%] " key={list.id}>
+            <div className="pt-4 px-[5%] " key={list.id}>
               <BlogList
                 post={list}
                 setState={setModal}
@@ -35,7 +35,7 @@ export default function Home({ posts, comments }) {
           ))}
         </div>
         <div className="fixed top-[20%] right-[0] w-[20%]">
-          <SearchUser />
+          <Sidebar />
         </div>
         <div
           className={
