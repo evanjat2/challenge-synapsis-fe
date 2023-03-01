@@ -82,13 +82,13 @@ export default function dashboard({ users }) {
             setFilteredData={setFilteredUser}
             triggerCreate={triggerCreate}
           />
-          <div className="bg-white rounded-lg md:rounded-xl overflow-hidden">
+          <div className="bg-white rounded-lg md:rounded-xl overflow-hidden px-2 py-4 md:py-6">
             <table className="w-full table-auto">
               <thead>
                 <tr className="bg-white mt-40">
                   <th>ID</th>
-                  <th>Name</th>
-                  <th className="hidden md:grid">Email</th>
+                  <th className="text-left">Name</th>
+                  <th className="hidden md:grid text-left">Email</th>
                   <th>Status</th>
                   <th></th>
                   <th></th>
@@ -97,9 +97,9 @@ export default function dashboard({ users }) {
               <tbody className="gap-4">
                 {filteredUser?.map((l) => (
                   <tr className="text-sm">
-                    <td className="text-center h-16 px-3 md:px-2">{l.id}</td>
+                    <td className="text-center h-12 px-3 md:px-2">{l.id}</td>
                     <td>{l.name}</td>
-                    <td className="hidden md:grid h-16 content-center">
+                    <td className="hidden md:grid h-12 content-center">
                       {l.email}
                     </td>
 

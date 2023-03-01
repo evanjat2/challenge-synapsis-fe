@@ -24,7 +24,7 @@ export default function Home({ posts, comments }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="h-full bg-gradient-to-b from-blue-900 to-green-800">
+      <div className="h-full bg-gradient-to-b from-blue-900 to-green-800 font-inter">
         <div className="w-full">
           {posts.map((list) => (
             <div className="pt-4 px-[5%] py-4" key={list.id}>

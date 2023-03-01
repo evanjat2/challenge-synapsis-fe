@@ -4,7 +4,7 @@ export default function BlogModal({ state, setState, content, comment }) {
   };
   return (
     state == 1 && (
-      <div className="w-full h-full inset-0 relative overflow-y-auto">
+      <div className="w-full h-full inset-0 relative overflow-y-auto ">
         <div className="fixed w-full h-full bg-black opacity-50 grid content-center"></div>
         <div className="text-black rounded-lg bg-white absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] h-[90%] overflow-y-auto w-[90%] px-4 py-8">
           <p
