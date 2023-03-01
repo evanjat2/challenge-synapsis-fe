@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { IoCreateOutline } from "react-icons/io5";
+import { IconContext } from "react-icons";
 
-export default function SearchBar({ data, setFilteredData }) {
+export default function SearchBar({ data, setFilteredData, triggerCreate }) {
   function handleChange(event) {
     event.preventDefault();
     const targetUser = event.target.value.toLowerCase();
@@ -30,6 +30,11 @@ export default function SearchBar({ data, setFilteredData }) {
             name="user"
             onChange={handleChange}
           />
+          <IconContext.Provider value={{ color: "green", size: "24px" }}>
+            <div className="cursor-pointer w-8 text-center h-8 grid content-center justify-center bg-yellow-300 hover:bg-yellow-200 rounded-lg duration-300" onClick={triggerCreate}>
+              <IoCreateOutline />
+            </div>
+          </IconContext.Provider>
         </form>
       </div>
     </div>
