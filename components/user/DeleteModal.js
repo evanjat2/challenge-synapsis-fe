@@ -19,7 +19,7 @@ export default function DeleteModal({
     <div className="w-full h-full inset-0 fixed relative">
       
       <div className="w-full h-full bg-black opacity-50 grid content-center fixed"></div>
-      <div className="fixed translate-x-[-50%] left-[50%] translate-y-[-50%] top-[50%] bg-white rounded-lg py-8 h-fit w-[20%] text-center">
+      <div className="fixed translate-x-[-50%] left-[50%] translate-y-[-50%] top-[50%] bg-white rounded-lg p-8 h-fit text-center">
         <p>Confirm Delete {choosedID}?</p>
         <div className="flex gap-8 mt-2 w-full justify-items-center justify-center rounded-lg">
           <button
