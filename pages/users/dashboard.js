@@ -14,12 +14,13 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
-export default function dashboard({ users }) {
+export default function dashboard() {
   const [filteredUser, setFilteredUser] = useState();
   const [delState, setDelState] = useState(false);
   const [createState, setCreateState] = useState(false);
   const [updateState, setUpdateState] = useState(false);
   const [choosedID, setChoosedID] = useState();
+  const [users, setUsers] = useState();
   const triggerToast = (text) => {
     toast(text);
   };
@@ -40,8 +41,15 @@ export default function dashboard({ users }) {
       setChoosedID(id);
     }
   };
-  useEffect(() => {
+  const getUsers = async () => {
+    const users = await fetch(`https://gorest.co.in/public/v2/users`).then(
+      (res) => res.json()
+    );
     setFilteredUser(users);
+    setUsers(users);
+  };
+  useEffect(() => {
+    console.log(getUsers());
   }, []);
   return (
     <>
@@ -149,14 +157,3 @@ export default function dashboard({ users }) {
     </>
   );
 }
-
-export const getStaticProps = async () => {
-  const users = await fetch(`https://gorest.co.in/public/v2/users`).then(
-    (res) => res.json()
-  );
-  return {
-    props: {
-      users,
-    },
-  };
-};
