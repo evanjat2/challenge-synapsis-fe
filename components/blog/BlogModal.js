@@ -17,7 +17,7 @@ export default function BlogModal({ state, setState, content, comment }) {
           <p className="pt-2">{content.body}</p>
           <div className="pt-8 px-4">Comments</div>
           <div className="h-40 py-2 bg-blue-100 px-2 overflow-auto">
-            {comment[0] &&
+            {comment &&
               comment.map((list) => (
                 <div className="py-2">
                   <p className="px-2">{list.name}</p>
@@ -26,7 +26,7 @@ export default function BlogModal({ state, setState, content, comment }) {
                   </p>
                 </div>
               ))}
-            {!comment[0] && <div className="py-2 px-2">Tidak ada komentar</div>}
+            {(comment.length == 0) && <div className="py-2 px-2">Tidak ada komentar</div>}
           </div>
         </div>
       </div>

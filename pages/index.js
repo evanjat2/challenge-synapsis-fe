@@ -2,18 +2,31 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 
 import BlogList from "@/components/blog/BlogList";
-import Sidebar from "@/components/user/SearchBar";
 import BlogModal from "@/components/blog/BlogModal";
 import UserButton from "@/components/user/Button";
 
-export default function Home({ posts, comments }) {
+export default function Home({}) {
+  const [posts, setPosts] = useState();
+  const [comments, setComments] = useState();
+
   const [modalState, setModal] = useState(false);
   const [content, setContent] = useState();
   const [comment, setComment] = useState(comments);
+  const getPosts = async () => {
+    const posts = await fetch(`https://gorest.co.in/public/v2/posts`).then(
+      (res) => res.json()
+    );
+    const comments = await fetch(
+      `https://gorest.co.in/public/v2/comments`
+    ).then((res) => res.json());
+    setPosts(posts);
+    setComments(comments);
+  };
   useEffect(() => {
-    setComment(comments.filter((list) => list.post_id == content?.id));
+    setComment(comments?.filter((list) => list.post_id == content?.id));
   }, [content]);
   useEffect(() => {
+    getPosts();
     console.log(posts);
   }, []);
   return (
@@ -26,7 +39,7 @@ export default function Home({ posts, comments }) {
       </Head>
       <div className="h-full bg-gradient-to-b from-blue-900 to-green-800 font-inter">
         <div className="w-full">
-          {posts.map((list) => (
+          {posts?.map((list) => (
             <div className="pt-4 px-[5%] py-4" key={list.id}>
               <BlogList
                 post={list}
@@ -56,20 +69,20 @@ export default function Home({ posts, comments }) {
   );
 }
 
-export async function getStaticProps() {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  const resPosts = await fetch("https://gorest.co.in/public/v2/posts");
-  const posts = await resPosts.json();
+// export async function getStaticProps() {
+//   Call an external API endpoint to get posts.
+//   You can use any data fetching library
+//   const resPosts = await fetch("https://gorest.co.in/public/v2/posts");
+//   const posts = await resPosts.json();
 
-  const resComments = await fetch("https://gorest.co.in/public/v2/comments");
-  const comments = await resComments.json();
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
-  return {
-    props: {
-      posts,
-      comments,
-    },
-  };
-}
+//   const resComments = await fetch("https://gorest.co.in/public/v2/comments");
+//   const comments = await resComments.json();
+//   By returning { props: { posts } }, the Blog component
+//   will receive `posts` as a prop at build time
+//   return {
+//     props: {
+//       posts,
+//       comments,
+//     },
+//   };
+// }
