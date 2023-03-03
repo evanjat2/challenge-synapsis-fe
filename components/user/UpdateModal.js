@@ -6,8 +6,8 @@ export default function UpdateModal({
 }) {
   const [state, setState] = useState(false);
   const [user, setUser] = useState();
-  const triggerState = (event) => {
-    setState(event);
+  const triggerState = (bool) => {
+    setState(bool);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,7 +26,7 @@ export default function UpdateModal({
       .then(triggerUpdate())
       .then(triggerToast("berhasil mengupdate user dengan ID: " + choosedID));
   };
-  const getUsers = async () => {
+  const getUsers = async (event) => {
     const users = await fetch(
       `https://gorest.co.in/public/v2/users/${choosedID}`
     )
@@ -35,8 +35,7 @@ export default function UpdateModal({
   };
   useEffect(() => {
     getUsers();
-    console.log(user);
-  }, [state]);
+  }, []);
 
   return (
     <div className="w-full h-full inset-0 relative">
